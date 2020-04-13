@@ -45,11 +45,13 @@ router.post('/saveassistant', function(req, res, next) {
 });
 
 router.post('/getassistantbyname', function(req, res, next) {
+  let name = req.query.real_name || req.body.real_name
+  console.log(name)
   util.getToken().then(access_token=>{
       let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
       let requestData={
         "action":"querybyname",
-        "real_name":req.query.real_name
+        "real_name":name
       };
       request({
           url: cloudurl,

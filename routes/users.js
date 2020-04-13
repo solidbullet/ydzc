@@ -13,6 +13,11 @@ router.get('/', function(req, res, next) {
   res.render('login');
 });
 
+router.get('/vue', function(req, res, next) {
+  res.render('vue/index');
+});
+
+
 router.get('/loginout', function(req, res, next) {
   req.session.user = null;
   res.redirect('login');

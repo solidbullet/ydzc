@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+<link rel="stylesheet" type="text/css" media="all" href="../stylesheets/style.css">
+<script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+      
+      <div class="topnav">
+            <a href="">首页</a>&nbsp;&nbsp;&nbsp;  <a href="">登录</a>
+      </div>
+      <div class="logo"></div>
+      
+  
+      
+      <div class="row">
+        <div class="column">
+          <h2>第一列</h2>
+          <p>菜鸟教程 - 学的不仅是技术，更是梦想！菜鸟教程 - 学的不仅是技术，更是梦想！菜鸟教程 - 学的不仅是技术，更是梦想！菜鸟教程 - 学的不仅是技术，更是梦想！</p>
+        </div>
+        
+        <div class="column">
+          <h2>第二列</h2>
+          <p>菜鸟教程 - 学的不仅是技术，更是梦想！菜鸟教程 - 学的不仅是技术，更是梦想！菜鸟教程 - 学的不仅是技术，更是梦想！菜鸟教程 - 学的不仅是技术，更是梦想！</p>
+        </div>
+        
+        <div class="column">
+          <h2>第三列</h2>
+          <p>菜鸟教程 - 学的不仅是技术，更是梦想！菜鸟教程 - 学的不仅是技术，更是梦想！菜鸟教程 - 学的不仅是技术，更是梦想！菜鸟教程 - 学的不仅是技术，更是梦想！</p>
+        </div>
+      </div>
+      <div class="footer">
+        扶老助残&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;志在壹方
+      </div>
+   
+
+</div>
+<script type = "text/javascript">
+new Vue({
+  el: '#app',
+  data () {
+    return {
+      info: null
+    }
+  },
+  mounted () {
+    axios.post('/assistant/getassistantbyname', {
+        real_name: '黄丽萍'    // 参数 lastName
+    })
+    .then(response => (this.info = JSON.parse(response.data.resp_data).data[0])) 
+    .catch(function (error) {
+        console.log(error);
+    });
+    }
+})
+/*
+$http({
+    method : 'POST',
+    url : '/assistant/getassistantbyname',
+    params :{real_name: $scope.real_name} ,  //{real_name: '韩梅梅',startTime:'2020-01-01',endTime:'2020-04-09'}
+    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }).success(function(response){       
+    $scope.assistant = JSON.parse(response.resp_data).data;
+    console.log(response)  
+    
+  })
+  */
+</script>
+</body>
+</html>
+
