@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>壹方助残后台管理系统</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 引入 Bootstrap -->
+  <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- HTML5 Shiv 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+  <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+  <!--[if lt IE 9]>
+     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+  <![endif]-->
+  <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+
+ 
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+<div ng-app="myApp" ng-controller="siteCtrl"> 
+
+  <div class="container">
+    <h5>您好,<span><%= username %></span>  <a href= "/users/loginout">注销</a></h5>
+    <form action="" class="form-horizontal"  role="form">
+        <fieldset>
+            <legend>服务人员查询</legend>
+            <div class="form-group">
+              <label for="name">请输入服务人员姓名</label>
+              <input type="text" ng-model="real_name" class="form-control" id="name" placeholder="请输入名称">
+            </div>
+        </fieldset>
+    </form>
+    <button id="fat-btn" class="btn btn-primary" ng-click="query()"  type="button"> 查询</button>
+
+
+    <table class="table">
+      <caption>服务人员信息</caption>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>身份证号</th>
+          <th>居住证地址</th>
+          <th>户口所在地</th>
+          <th>证书</th>
+          <th>服务户数</th>
+          <th>工作年限</th>
+          <th>保险</th>
+          <th>银行卡号</th>
+          <th>备注</th>
+          <th>管理对象</th>
+          <th>修改</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="x in assistant">
+          <td>{{ x.real_name }}</td>
+          <td>{{ x.id_card }}</td>
+          <td>{{ x.address }}</td>
+          <td>{{ x.register_addr }}</td>
+          <td>{{ x.certificate }}</td>
+          <td>{{ x.server_num }}</td>
+          <td>{{ x.work_seniority }}</td>
+          <td>{{ x.insurance }}</td>
+          <td>{{ x.bank_card }}</td>
+          <td>{{ x.specification }}</td>
+          <td><a href="/disabled/showalldisableds?real_name={{x.real_name}}" target="_blank">查看</a></td>
+          <td><a href="/assistant/updateassistant?real_name={{x.real_name}}" target="_blank">修改</a></td>
+        </tr>
+
+      </tbody>
+    </table>
+</div>
+
+  </div>
+  <script type="text/javascript" src="../jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+
+  var app = angular.module('myApp', []);    
+  app.controller('siteCtrl', function($scope, $http) {
+
+
+    $scope.query = function() {
+      console.log( $scope.real_name)
+        $http({
+          method : 'POST',
+          url : '/assistant/getassistantbyname',
+          params :{real_name: $scope.real_name} ,  //{real_name: '韩梅梅',startTime:'2020-01-01',endTime:'2020-04-09'}
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }).success(function(response){       
+          $scope.assistant = JSON.parse(response.resp_data).data;
+          console.log(response)  
+          
+        })
+    };
+
+  });
+
+
+
+  </script>
+</body>
+</html>
+
+<!--
+$http({
+  method : 'POST',
+  url : '/querydraw',
+  params :{drawname: $scope.querysome,blockname:$scope.params.blockname},
+  headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+  }).success(function(response){
+  $scope.drawings =response.rows;
+  $scope.pagenum=[];
+})
+-->
