@@ -54,6 +54,7 @@
 
     $scope.loginerror = false;
     $scope.login = function() {
+
       if(!$scope.username || !$scope.password){
         $scope.loginerror = true;
         $scope.errorinfo = "用户名或密码不能为空";
@@ -61,6 +62,7 @@
       }else{
         $scope.loginerror = false;
       }
+      
       let my_paras = {
         username:$scope.username,
         password:$scope.password
