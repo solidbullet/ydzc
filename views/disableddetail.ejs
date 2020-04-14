@@ -126,7 +126,7 @@
         <label for="exampleInputEmail1">备注</label>
         <textarea  ng-model = disabled.distspecificationict class="form-control" rows="3"></textarea>
       </div>
-      <button class="btn btn-primary" type="button" ng-show="{{isupdate}}" ng-click="update()" >修改</button>
+      <button class="btn btn-primary" type="button" ng-show="isupdate" ng-click="update()" >修改</button>
     </form>
 
 </div>
@@ -144,12 +144,13 @@
 
   var app = angular.module('myApp', []);    
   app.controller('siteCtrl', function($scope, $http) {
-    if("<%= role %>" == 0){
+
+    if(parseInt("<%= role %>") == 0){
       $scope.isupdate = true
     }else{
       $scope.isupdate = false
     }
-    
+    console.log($scope.isupdate);
     $http({
           method : 'POST',
           url : '/disabled/getdisabledbyname',

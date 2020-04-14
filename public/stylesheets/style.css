@@ -38,6 +38,7 @@ a {
 
 .container{
   margin-top: 45px;
+  margin-bottom: 50px;
 }
 
 /* 创建三个相等的列 */
@@ -57,4 +58,5 @@ a {
   position: fixed;
   bottom: 0px;
   font-size: 16px;
+
 }
