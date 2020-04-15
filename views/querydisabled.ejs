@@ -24,6 +24,8 @@
                 <option>受助人姓名</option>
                 <option>受助人区域</option>
                 <option>服务人姓名</option>
+                <option>用户类型</option>
+                <option>伤残等级</option>
                 </select>
             </div>
             <div class="form-group">
@@ -34,9 +36,10 @@
     </form>
     <button id="fat-btn" class="btn btn-primary" ng-click="query()"  type="button"> 查询</button>
 
+    
 
     <table class="table">
-      <caption>受助人员信息</caption>
+      <caption>受助人员信息 <span ng-if = disabled>,共&nbsp;<span style="color: red;font-size: 16px;">{{disabled.length}}</span>&nbsp;条</span></caption>
       <thead>
         <tr>
           <th>姓名</th>
@@ -92,6 +95,14 @@
         if($scope.queryType == '服务人姓名'){
           reqUrl = '/disabled/getalldisabledsbyassistant';
           reqData.assistantName = $scope.querycontent;
+        }
+        if($scope.queryType == '用户类型'){
+          reqUrl = '/disabled/getdisabledsbyusertype';
+          reqData.usertype = $scope.querycontent;
+        }
+        if($scope.queryType == '伤残等级'){
+          reqUrl = '/disabled/getdisabledsbyclass';
+          reqData.disabledclass = $scope.querycontent;
         }
         $http({
           method : 'POST',

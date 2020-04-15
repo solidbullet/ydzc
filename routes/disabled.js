@@ -72,6 +72,54 @@ router.post('/getdisabledbyname', function(req, res, next) {
   })
 });
 
+router.post('/getdisabledsbyusertype', function(req, res, next) {
+  util.getToken().then(access_token=>{
+    let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
+    let requestData={
+      "action":"querybyusertype",
+      "usertype":req.query.usertype
+    };
+    request({
+        url: cloudurl,
+        method: "POST",
+        json: true,
+        headers: {
+            "content-type": "application/json",
+        },
+        body: requestData
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          res.send(body);
+        }
+    });
+    //console.log(access_token)
+})
+});
+
+router.post('/getdisabledsbyclass', function(req, res, next) {
+  util.getToken().then(access_token=>{
+    let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
+    let requestData={
+      "action":"querybydisabledclass",
+      "disabledclass":req.query.disabledclass
+    };
+    request({
+        url: cloudurl,
+        method: "POST",
+        json: true,
+        headers: {
+            "content-type": "application/json",
+        },
+        body: requestData
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          res.send(body);
+        }
+    });
+    //console.log(access_token)
+})
+});
+
 router.post('/getalldisabledsbyassistant', function(req, res, next) {
 
   util.getToken().then(access_token=>{
