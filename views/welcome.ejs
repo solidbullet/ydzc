@@ -1,0 +1,61 @@
+﻿<html>
+<head>
+    <style type="text/css">
+        body{
+            background-image: url("../../lib/images/home_page.png") ;
+            background-repeat: no-repeat;
+            background-position-x: center;
+            background-position-y: center;
+            background-size:100% 100%;
+
+        }
+        .panel-body{
+            position: relative;
+            left: 0;
+            top: 0;
+        }
+    </style>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+<body>
+<div ng-app="myApp" ng-controller="siteCtrl"> 
+
+        <div class="panel-body">
+          受助人员录入总数：<span style="color: red;font-size: 16px;">{{disabled}}</span> 人&nbsp;&nbsp;服务人员录入总数：<span style="color: red;font-size: 16px;">{{assistant}}</span> 人
+        </div>
+
+</div>
+
+  <script>
+    var app = angular.module('myApp', []);    
+    app.controller('siteCtrl', function($scope, $http) {
+      $scope.assistant = 0;
+      $scope.disabled = 0;
+      $http({
+            method : 'POST',
+            url : '/disabled/getallcount',
+            params :{},  
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).success(function(response){       
+            $scope.disabled = JSON.parse(response.resp_data).list[0].count;
+            
+          })
+      $http({
+        method : 'POST',
+        url : '/assistant/getallcount',
+        params :{},  
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(response){   
+        console.log(response)    
+        $scope.assistant = JSON.parse(response.resp_data).list[0].count;
+        
+      })
+  
+    });
+  
+  
+  
+    </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>壹方助残后台管理系统</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" type="text/css" media="all" href="../stylesheets/style.css">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+<div ng-app="myApp" ng-controller="siteCtrl"> 
+  <div class="topnav">
+    <a href="">首页</a>&nbsp;&nbsp;&nbsp; <%= username %> &nbsp;&nbsp;&nbsp; <a href= "/users/loginout">注销</a>
+</div>
+<div class="logo"></div>
+  <div class="container">
+
+    <div class="list-group">
+      <a href="#" class="list-group-item active">
+        <h4 class="list-group-item-heading">
+          数据查询
+        </h4>
+      </a>
+      <a href="/clock" target="_blank" class="list-group-item">
+        <h4 class="list-group-item-heading">
+          打卡记录查询
+        </h4>
+      </a>
+      <a href="/assistant/queryassistant" target="_blank" class="list-group-item">
+        <h4 class="list-group-item-heading">
+          服务人员查询
+        </h4>
+      </a>
+      <a href="/disabled/querydisabled" target="_blank" class="list-group-item">
+        <h4 class="list-group-item-heading">
+          受助人员查询
+        </h4>
+      </a>
+      <a href="/demand/querydemand" target="_blank" class="list-group-item">
+        <h4 class="list-group-item-heading">
+          受助人员需求查询
+        </h4>
+      </a>
+    </div>
+
+    <div class="list-group">
+      <a href="#" class="list-group-item active">
+        <h4 class="list-group-item-heading">
+          数据录入
+        </h4>
+      </a>
+      <a href="/assistant" target="_blank" class="list-group-item">
+        <h4 class="list-group-item-heading">
+          服务人员信息录入
+        </h4>
+      </a>
+      <a href="/disabled" target="_blank" class="list-group-item">
+        <h4 class="list-group-item-heading">
+          受助人员信息录入
+        </h4>
+      </a>
+      <a href="/demand" target="_blank" class="list-group-item">
+        <h4 class="list-group-item-heading">
+          受助人员需求表录入
+        </h4>
+      </a>
+
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        受助人员录入总数：<span style="color: red;font-size: 16px;">{{disabled}}</span> 人&nbsp;&nbsp;服务人员录入总数：<span style="color: red;font-size: 16px;">{{assistant}}</span> 人
+      </div>
+  </div>
+
+
+
+  </div>
+  <div class="footer">
+    扶老助残&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;志在壹方
+  </div>
+<div>
+  <script type="text/javascript" src="./jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="./javascripts/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="./javascripts/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+
+
+<script>
+
+  var app = angular.module('myApp', []);    
+  app.controller('siteCtrl', function($scope, $http) {
+    $scope.assistant = 0;
+    $scope.disabled = 0;
+    $http({
+          method : 'POST',
+          url : '/disabled/getallcount',
+          params :{},  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }).success(function(response){       
+          $scope.disabled = JSON.parse(response.resp_data).list[0].count;
+          
+        })
+    $http({
+      method : 'POST',
+      url : '/assistant/getallcount',
+      params :{},  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+      }).success(function(response){   
+      console.log(response)    
+      $scope.assistant = JSON.parse(response.resp_data).list[0].count;
+      
+    })
+
+  });
+
+
+
+  </script>
+</body>
+</html>
+
+<!--
+$http({
+  method : 'POST',
+  url : '/querydraw',
+  params :{drawname: $scope.querysome,blockname:$scope.params.blockname},
+  headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+  }).success(function(response){
+  $scope.drawings =response.rows;
+  $scope.pagenum=[];
+})
+-->

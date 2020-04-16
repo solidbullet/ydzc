@@ -41,7 +41,7 @@ router.post('/getallcount', function(req, res, next) {
         }
     });
     //console.log(access_token)
-  })
+})
 });
 
 router.post('/savedisabled', function(req, res, next) {

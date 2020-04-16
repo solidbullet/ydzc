@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <title>壹方助残后台管理系统</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
   <link rel="stylesheet" type="text/css" media="all" href="../stylesheets/style.css">
@@ -9,15 +8,11 @@
   </head>
   
   <div ng-app="myApp" ng-controller="siteCtrl"> 
-    <div class="topnav">
-      <a href="/">首页</a>&nbsp;&nbsp;&nbsp; <%= username %> &nbsp;&nbsp;&nbsp; <a href= "/users/loginout">注销</a>
-  </div>
-  <div class="logo"></div>
+
 
   <div class="container">
     <form action="" class="form-horizontal"  role="form">
         <fieldset>
-            <legend>服务人员打卡记录查询</legend>
             <div class="form-group">
               <label for="name">请输入服务人员姓名</label>
               <input type="text" ng-model="real_name" class="form-control" id="name" placeholder="请输入名称">
@@ -64,9 +59,6 @@
 
       </tbody>
     </table>
-</div>
-<div class="footer">
-  扶老助残&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;志在壹方
 </div>
   
   </div>
