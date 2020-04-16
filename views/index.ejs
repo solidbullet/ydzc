@@ -68,6 +68,12 @@
 
     </div>
 
+    <div class="panel panel-default">
+      <div class="panel-body">
+        受助人员录入总数：<span style="color: red;font-size: 16px;">{{disabled}}</span> 人&nbsp;&nbsp;服务人员录入总数：<span style="color: red;font-size: 16px;">{{assistant}}</span> 人
+      </div>
+  </div>
+
 
 
   </div>
@@ -85,8 +91,27 @@
 
   var app = angular.module('myApp', []);    
   app.controller('siteCtrl', function($scope, $http) {
-
-
+    $scope.assistant = 0;
+    $scope.disabled = 0;
+    $http({
+          method : 'POST',
+          url : '/disabled/getallcount',
+          params :{},  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }).success(function(response){       
+          $scope.disabled = JSON.parse(response.resp_data).list[0].count;
+          
+        })
+    $http({
+      method : 'POST',
+      url : '/assistant/getallcount',
+      params :{},  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+      }).success(function(response){   
+      console.log(response)    
+      $scope.assistant = JSON.parse(response.resp_data).list[0].count;
+      
+    })
 
   });
 

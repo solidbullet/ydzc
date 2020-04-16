@@ -16,6 +16,9 @@ router.get('/', function(req, res, next) {
 router.get('/vue', function(req, res, next) {
   res.render('vue/index');
 });
+router.get('/vue/welcome', function(req, res, next) {
+  res.render('vue/welcome');
+});
 
 
 router.get('/loginout', function(req, res, next) {

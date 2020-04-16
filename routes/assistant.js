@@ -18,6 +18,27 @@ router.get('/updateassistant', function(req, res, next) {
   res.render('updateassistant', {real_name:req.query.real_name,role: req.session.user.role});
 });
 
+router.post('/getallcount', function(req, res, next) {
+  util.getToken().then(access_token=>{
+    let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
+    let requestData = {};
+    requestData.action = "getallcount";
+    request({
+        url: cloudurl,
+        method: "POST",
+        json: true,
+        headers: {
+            "content-type": "application/json",
+        },
+        body: requestData
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          res.send(body);
+        }
+    });
+    //console.log(access_token)
+  })
+});
 
 router.post('/saveassistant', function(req, res, next) {
   util.getToken().then(access_token=>{
