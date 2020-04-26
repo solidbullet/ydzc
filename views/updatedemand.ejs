@@ -1,133 +1,163 @@
-<!DOCTYPE html>
 <html>
+
 <head>
-  <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-  <link rel="stylesheet" type="text/css" media="all" href="../stylesheets/style.css">
-  <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
-  </head>
-  
-  <div ng-app="myApp" ng-controller="siteCtrl"> 
+  <title>壹方助残管理系统</title>
+  <link href="../../lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+  <link href="../../lib/css/jyq.css" rel="stylesheet" media="screen">
+  <script src="../../lib/jquery/jquery-1.9.0.min.js" type="text/javascript"></script>
+  <script src="../../lib/ligerUI/js/ligerui.all.js" type="text/javascript"></script>
+  <script src="../../lib/angular/angularjs1.4.6.js"></script>
+</head>
 
+<body>
   <div class="container">
+    <div ng-app="myApp" ng-controller="siteCtrl">
+      <div class="title-wrap">
+        <div class="title"><img src="../../lib/images/insert.png" alt=""></div>
+        <div class="title">受助人员需求修改</div>
+      </div>
+      <div class="query-form">
+        <div class="query-wrap">
+          <div class="query-type-title">受助人姓名</div>
+          <div class="query-type-input">
+            <input type="text" class="input-wrap" ng-model=demand.real_name>
+          </div>
+        </div>
+        <div class="query-wrap">
+          <div class="query-type-title">监护人姓名</div>
+          <div class="query-type-input">
+            <input type="text" class="input-wrap" ng-model=demand.guardianName>
+          </div>
+        </div>
+        <div class="query-wrap">
+          <div class="query-type-title">监护人电话</div>
+          <div class="query-type-input" style="border-style: solid;border-width:1px;border-color: rgb(163, 192, 232);">
+            <input type="text" class="input-wrap" ng-model=demand.guardianPhone>
+          </div>
+        </div>
 
-    <form>
-      <div class="form-group">
-        <label for="exampleInputEmail1">受助人员姓名</label>
-        <input type="text" ng-model=demand.real_name class="form-control" id="exampleInputName2" placeholder="">
       </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">监护人姓名</label>
-        <input type="text"  ng-model=demand.guardianName class="form-control" id="exampleInputName2" placeholder="">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">监护人电话</label>
-        <input type="text" ng-model=demand.guardianPhone class="form-control" id="exampleInputName2" placeholder="">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">居住人口</label>
-        <input type="text" ng-model=demand.resident class="form-control" id="exampleInputName2" placeholder="">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">开始服务日期</label>
-        <input type="date" ng-model=demand.startDate  class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">家属户</label>
-        <select ng-model = demand.isFamily class="form-control" >
-          <option>是</option>
-          <option>否</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">疾病史</label>
-        <input type="text" ng-model=demand.illness class="form-control" id="exampleInputName2" placeholder="">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">服务内容</label>
-        <input type="text" ng-model=demand.serverItem class="form-control" id="exampleInputName2" placeholder="">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">服务时间</label>
-        <input type="text"  ng-model=demand.serverPeriod class="form-control" >
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">截止服务日期</label>
-        <input type="date" ng-model=demand.endDate  class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">备注</label>
-        <textarea ng-model=demand.specification class="form-control" rows="3"></textarea>
-      </div>
-      <button class="btn btn-primary" type="button" ng-show="isupdate" ng-click="update()" >修改</button>
-    </form>
 
-</div>
+      <div class="query-form">
+        <div class="query-wrap">
+          <div class="query-type-title">服务开始日期</div>
+          <div class="query-type-input">
+            <input type="date" class="input-wrap" ng-model=demand.startDate>
+          </div>
+        </div>
+        <div class="query-wrap">
+          <div class="query-type-title">服务截止日期</div>
+          <div class="query-type-input">
+            <input type="date" class="input-wrap" ng-model=demand.endDate>
+          </div>
+        </div>
+        <div class="query-wrap">
+          <div class="query-type-title">服务内容</div>
+          <div class="query-type-input" style="border-style: solid;border-width:1px;border-color: rgb(163, 192, 232);">
+            <input type="text" class="input-wrap" ng-model=demand.serverItem>
+          </div>
+        </div>
+      </div>
+      <div class="query-form">
+        <div class="query-wrap">
+          <div class="query-type-title">家属户</div>
+          <div class="query-type-input">
+            <select class="input-wrap" ng-model=demand.isFamily>
+              <option>是</option>
+              <option>否</option>
+            </select>
+          </div>
+        </div>
+        <div class="query-wrap">
+          <div class="query-type-title">居住人口</div>
+          <div class="query-type-input">
+            <input type="text" class="input-wrap" ng-model=demand.resident>
+          </div>
+        </div>
+        <div class="query-wrap">
+          <div class="query-type-title">疾病史</div>
+          <div class="query-type-input" style="border-style: solid;border-width:1px;border-color: rgb(163, 192, 232);">
+            <input type="text" class="input-wrap" ng-model=demand.illness>
+          </div>
+        </div>
+      </div>
+
+      <div class="query-form">
+        <div class="query-wrap">
+          <div class="query-type-title">备注</div>
+          <div class="query-type-input"
+            style="width:540px;  border-style: solid;border-width:1px;border-color: rgb(163, 192, 232);">
+            <input type="text" class="input-wrap" ng-model="specification" style="width: 500px;">
+          </div>
+        </div>
+      </div>
+
+      <button class="query-button" id="mybutton" ng-click="update()">修改</button>
+
+    </div>
   </div>
-  <script type="text/javascript" src="../jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
-  <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
 
+  <script>
 
+    var app = angular.module('myApp', []);
+    app.controller('siteCtrl', function ($scope, $http) {
 
-<script>
-
-  var app = angular.module('myApp', []);    
-  app.controller('siteCtrl', function($scope, $http) {
-
-    if("<%= role %>" == 0){
-      $scope.isupdate = true
-    }else{
-      $scope.isupdate = false
-    }
-    
-    $http({
-          method : 'POST',
-          url : '/demand/getdemandbyname',
-          params :{real_name:"<%=real_name%>"} ,  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-          }).success(function(response){
-   
-          $scope.demand =  JSON.parse(response.resp_data).data[0];
-          $scope.demand.startDate = new Date($scope.demand.startDate)
-          $scope.demand.endDate = new Date($scope.demand.endDate)
-          console.log($scope.demand)      
-        })
-
-    $scope.update = function() {
-        let my_paras = {
-        real_name:$scope.demand.real_name,
-        guardianName:$scope.demand.guardianName,
-        guardianPhone:$scope.demand.guardianPhone,
-        resident:$scope.demand.resident,
-        startDate:$scope.demand.startDate,
-        isFamily:$scope.demand.isFamily,
-        illness:$scope.demand.illness,
-        serverItem:$scope.demand.serverItem,
-        serverPeriod:$scope.demand.serverPeriod,
-        endDate:$scope.demand.endDate,
-        specification:$scope.demand.specification
+      if ("<%= role %>" == 0) {
+        $scope.isupdate = true
+      } else {
+        $scope.isupdate = false
       }
+
+      $http({
+        method: 'POST',
+        url: '/demand/getdemandbyname',
+        params: { real_name: "<%=real_name%>" },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      }).success(function (response) {
+
+        $scope.demand = JSON.parse(response.resp_data).data[0];
+        $scope.demand.startDate = new Date($scope.demand.startDate)
+        $scope.demand.endDate = new Date($scope.demand.endDate)
+        console.log($scope.demand)
+      })
+
+      $scope.update = function () {
+        let my_paras = {
+          real_name: $scope.demand.real_name,
+          guardianName: $scope.demand.guardianName,
+          guardianPhone: $scope.demand.guardianPhone,
+          resident: $scope.demand.resident,
+          startDate: $scope.demand.startDate,
+          isFamily: $scope.demand.isFamily,
+          illness: $scope.demand.illness,
+          serverItem: $scope.demand.serverItem,
+          serverPeriod: $scope.demand.serverPeriod,
+          endDate: $scope.demand.endDate,
+          specification: $scope.demand.specification
+        }
         $http({
-          method : 'POST',
-          url : '/demand/updatedemandbyname',
-          params :my_paras,  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-          }).success(function(response){
-            console.log(response)
-            if(JSON.parse(response.resp_data).stats.updated == 1){
-              alert("修改成功") 
-            }   
+          method: 'POST',
+          url: '/demand/updatedemandbyname',
+          params: my_paras,
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function (response) {
+          console.log(response)
+          if (JSON.parse(response.resp_data).stats.updated == 1) {
+            alert("修改成功")
+          }
         })
 
-        
-    };
+
+      };
 
 
-  });
+    });
 
 
 
   </script>
 </body>
+
 </html>
 
 <!--

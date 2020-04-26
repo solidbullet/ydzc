@@ -40,6 +40,29 @@ router.post('/getallcount', function(req, res, next) {
   })
 });
 
+router.post('/initAssistants', function(req, res, next) {
+  console.log("/initAssistantsy")
+  util.getToken().then(access_token=>{
+    let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
+    let requestData = {};
+    requestData.action = "initAssistants";
+    request({
+        url: cloudurl,
+        method: "POST",
+        json: true,
+        headers: {
+            "content-type": "application/json",
+        },
+        body: requestData
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          res.send(body);
+        }
+    });
+    //console.log(access_token)
+  })
+});
+
 router.post('/saveassistant', function(req, res, next) {
   util.getToken().then(access_token=>{
     let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
@@ -64,6 +87,44 @@ router.post('/saveassistant', function(req, res, next) {
 })
   
 });
+router.post('/getassistants', function(req, res, next) {
+  let requestData={};
+  let real_name = req.body.real_name
+  let idCard = req.body.idCard
+  let contact = req.body.contact
+  if(real_name){
+    requestData.action = "querybyname";
+    requestData.real_name = real_name
+  }
+  if(idCard){
+    requestData.action = "querybyidcard";
+    requestData.idCard = idCard
+  }
+  if(contact){
+    console.log(contact)
+    requestData.action = "querybycontact";
+    requestData.contact = contact
+  }
+
+  util.getToken().then(access_token=>{
+      let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
+      request({
+          url: cloudurl,
+          method: "POST",
+          json: true,
+          headers: {
+              "content-type": "application/json",
+          },
+          body: requestData
+      }, function(error, response, body) {
+          if (!error && response.statusCode == 200) {
+            res.send(body);
+          }
+      });
+      console.log(access_token)
+  })
+});
+
 
 router.post('/getassistantbyname', function(req, res, next) {
   let name = req.query.real_name || req.body.real_name

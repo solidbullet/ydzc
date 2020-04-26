@@ -1,97 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <title>壹方助残后台管理系统</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>壹方助残管理系统</title>
+  <link href="../lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+  <link href="../lib/css/jyq.css" rel="stylesheet" media="screen">
+  <script src="../lib/jquery/jquery-1.9.0.min.js" type="text/javascript"></script>
+  <script src="../lib/ligerUI/js/ligerui.all.js" type="text/javascript"></script>
+</head>
 
-  <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-  <link rel="stylesheet" type="text/css" media="all" href="../stylesheets/style.css">
-  <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
-  </head>
-  
-  <div ng-app="myApp" ng-controller="siteCtrl"> 
-
-  <div class="container">
-    <form action="" class="form-horizontal"  role="form">
-        <fieldset>
-            <div class="form-group">
-              <label for="name">请输入服务人员姓名</label>
-              <input type="text" ng-model="real_name" class="form-control" id="name" placeholder="请输入名称">
-            </div>
-        </fieldset>
-    </form>
-    <button id="fat-btn" class="btn btn-primary" ng-click="query()"  type="button"> 查询</button>
-
-
-    <table class="table">
-      <caption>服务人员信息</caption>
-      <thead>
-        <tr>
-          <th>姓名</th>
-          <th>身份证号</th>
-          <th>居住证地址</th>
-          <th>户口所在地</th>
-          <th>证书</th>
-          <th>服务户数</th>
-          <th>工作年限</th>
-          <th>保险</th>
-          <th>银行卡号</th>
-          <th>备注</th>
-          <th>管理对象</th>
-          <th>修改</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="x in assistant">
-          <td>{{ x.real_name }}</td>
-          <td>{{ x.id_card }}</td>
-          <td>{{ x.address }}</td>
-          <td>{{ x.register_addr }}</td>
-          <td>{{ x.certificate }}</td>
-          <td>{{ x.server_num }}</td>
-          <td>{{ x.work_seniority }}</td>
-          <td>{{ x.insurance }}</td>
-          <td>{{ x.bank_card }}</td>
-          <td>{{ x.specification }}</td>
-          <td><a href="/disabled/showalldisableds?real_name={{x.real_name}}" target="_blank">查看</a></td>
-          <td><a href="/assistant/updateassistant?real_name={{x.real_name}}" target="_blank">修改</a></td>
-        </tr>
-
-      </tbody>
-    </table>
+<div class="container">
+  <div class="title-wrap">
+    <div class="title"><img src="../../lib/images/query.png" alt=""></div>
+    <div class="title">服务人员查询</div>
+  </div>
+  <div class="query-form">
+    <div class="query-wrap">
+      <div class="query-type-title">服务人员姓名</div>
+      <div class="query-type-input">
+        <input type="text" class="input-wrap" id="real_name" autofocus>
+      </div>
+    </div>
+    <div class="query-wrap">
+      <div class="query-type-title">身份证</div>
+      <div class="query-type-input">
+        <input type="text" class="input-wrap" id="idCard">
+      </div>
+    </div>
+    <div class="query-wrap">
+      <div class="query-type-title">联系方式</div>
+      <div class="query-type-input" style="border-style: solid;border-width:1px;border-color: rgb(163, 192, 232);">
+        <input type="text" class="input-wrap" id="contact">
+      </div>
+    </div>
+  </div>
+  <button class="query-button" id="myreset">重置</button>
+  <button class="query-button" id="mybutton">查询</button>
+  <div id="maingrid"></div>
 </div>
 
-  </div>
-  <script type="text/javascript" src="../jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
-  <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
-
-
 <script>
+    $(function () {
 
-  var app = angular.module('myApp', []);    
-  app.controller('siteCtrl', function($scope, $http) {
-
-
-    $scope.query = function() {
-      console.log( $scope.real_name)
-        $http({
-          method : 'POST',
-          url : '/assistant/getassistantbyname',
-          params :{real_name: $scope.real_name} ,  //{real_name: '韩梅梅',startTime:'2020-01-01',endTime:'2020-04-09'}
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-          }).success(function(response){       
-          $scope.assistant = JSON.parse(response.resp_data).data;
-          console.log(response)  
-          
+      $.post("/assistant/initAssistants", {},
+        function (response, status) {
+          var griddata = JSON.parse(response.resp_data).data;
+          for (let i = 0; i < griddata.length; i++) {
+            griddata[i].update = "<a href= '/assistant/updateassistant?real_name=" + griddata[i].real_name + "'>修改</a>"
+          }
+          var grid = $("#maingrid").ligerGrid({
+            columns: [
+              { name: 'update', display: '操作' },
+              { name: 'real_name', display: '姓名' },
+              { name: 'contact', display: '联系方式' },
+              { name: 'address', display: '居住地址' },
+              { name: 'registerAddr', display: '户口所在地' },
+              { name: 'certificate', display: '证书' },
+              { name: 'serverNum', display: '服务户数' },
+              { name: 'workSeniority', display: '工作年限' },
+              { name: 'insurance', display: '保险' },
+              { name: 'bankCard', display: '银行卡号' },
+              { name: 'disableds', display: '备注' } //{ name: 'disableds', display: '管理对象'}
+            ],
+            data: { Rows: griddata },
+            pageSize: 20,
+            minColumnWidth: 200
+          });
         })
-    };
+    })
 
-  });
+    $("#myreset").click(function () {
+      $("#real_name").val("");
+      $("#idCard").val("");
+      $("#contact").val("");
+    })
+    $("#mybutton").click(function () {
+      let sum = 0;
+      let reqbody = {};
+      let real_name = $("#real_name").val();
+      let idCard = $("#idCard").val();
+      let contact = $("#contact").val();
+      if (real_name) {
+        sum++;
+        reqbody.real_name = real_name;
+      }
+      if (idCard) {
+        sum++;
+        reqbody.idCard = idCard;
+      }
+      if (contact) {
+        sum++;
+        reqbody.contact = contact;
+      }
+      if (sum == 1) {
+        console.log(contact)
+        $.post("/assistant/getassistants", reqbody,
+          function (response, status) {
+            var griddata = JSON.parse(response.resp_data).data;
+            for (let i = 0; i < griddata.length; i++) {
+              griddata[i].update = "<a href= '/assistant/updateassistant?real_name=" + griddata[i].real_name + "'>修改</a>"
+            }
+            var grid = $("#maingrid").ligerGrid({
+              columns: [
+                { name: 'update', display: '操作' },
+                { name: 'real_name', display: '姓名' },
+                { name: 'contact', display: '联系方式' },
+                { name: 'address', display: '居住地址' },
+                { name: 'registerAddr', display: '户口所在地' },
+                { name: 'certificate', display: '证书' },
+                { name: 'serverNum', display: '服务户数' },
+                { name: 'workSeniority', display: '工作年限' },
+                { name: 'insurance', display: '保险' },
+                { name: 'bankCard', display: '银行卡号' },
+                { name: 'disableds', display: '备注' } //{ name: 'disableds', display: '管理对象'}
+              ],
+              data: { Rows: griddata },
+              pageSize: 20,
+              minColumnWidth: 200
+            });
+            //alert("数据: \n" + data + "\n状态: " + status);
+          });
+      } else alert("每次查询只能输入一个字段")
 
-
-
-  </script>
+    });
+</script>
 </body>
+
 </html>
 
 <!--

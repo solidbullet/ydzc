@@ -28,9 +28,9 @@ router.post('/getrecord', function(req, res, next) {
     let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
     var requestData={
         "action":"queryrecordbyname",
-        "real_name":req.query.real_name,
-        "startTime":req.query.startTime,
-        "endTime":req.query.endTime
+        "real_name":req.body.real_name,
+        "startTime":req.body.startTime,
+        "endTime":req.body.endTime
       };
       console.log(requestData)
     request({

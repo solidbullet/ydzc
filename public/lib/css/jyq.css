@@ -1,0 +1,85 @@
+.container{
+    width:100%;
+    padding: 20px;
+    box-sizing: border-box;
+    
+}
+.title-wrap{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    height: 30px;
+
+    margin-top: 10px;
+}
+.title{
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+}
+.title img{
+    padding-top: 2px;
+}
+.query-form{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+
+}   
+.query-wrap{
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+}
+.query-type-title{
+    
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 35px;
+    border-style: solid;
+    border-width: 1px 0 1px 1px;
+    border-color:rgb(163, 192, 232);
+    background-color: rgb(224, 236, 255);
+    font-size: 14px;
+
+}
+.query-type-input{
+    
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 35px;
+    border-style: solid;
+    border-width: 1px 0 1px 1px;
+    border-color:rgb(163, 192, 232);
+
+}
+.input-wrap{
+    width: 180px;
+    height: 30px;
+
+}
+.query-button{
+    width: 80px;
+    height: 30px;
+    background-color: rgb(208, 228, 254);
+    border-radius: .6em;
+    margin-top: 10px;
+    background-image: linear-gradient(90deg,  rgb(224, 236, 255),rgb(163, 192, 232)); 
+}
+#maingrid{
+    margin-top: 10px;
+}
+.totaltime{
+    margin-top: 20px;
+    text-align: left;
+    font-size: 14px;
+}

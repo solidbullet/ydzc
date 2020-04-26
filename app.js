@@ -10,6 +10,7 @@ var assistantRouter = require('./routes/assistant');
 var disabledRouter = require('./routes/disabled');
 var demandRouter = require('./routes/demand');
 
+
 var app = express();
 var session = require('express-session')
 // view engine setup
@@ -31,6 +32,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
+
 
 
 app.use('*',(req,res,next)=>{
