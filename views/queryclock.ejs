@@ -56,8 +56,6 @@
   $("#myreset").click(function () {
     $("#real_name").val("");
     $("#cus_name").val("");
-    $("#startTime").val("");
-    $("#endTime").val("");
   })
 
 
@@ -68,7 +66,7 @@
     let endTime = $("#endTime").val();
     let real_name = $("#real_name").val();
     reqbody.real_name = real_name;
-    reqbody.cus_name = "";
+    reqbody.cus_name = "ALL";
     reqbody.startTime = startTime;
     reqbody.endTime = endTime;
     if (real_name) {
@@ -142,7 +140,7 @@
     reqbody.real_name = real_name;
     reqbody.startTime = startTime;
     reqbody.endTime = endTime;
-    reqbody.cus_name = cus_name;
+    reqbody.cus_name = (cus_name)?cus_name:"ALL";
     console.log(reqbody)
     if (real_name) {
       $.post("/getrecord", reqbody,
