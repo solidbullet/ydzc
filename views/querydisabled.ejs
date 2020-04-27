@@ -1,178 +1,195 @@
- 
- <html>
-  <head>
-      <title>壹方助残管理系统</title>
-      <link href="../lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" /> 
-      <link href="../lib/css/jyq.css" rel="stylesheet" media="screen">
-      <script src="../lib/jquery/jquery-1.9.0.min.js" type="text/javascript"></script>
-       <script src="../lib/ligerUI/js/ligerui.all.js" type="text/javascript"></script>  
- 
- </head>
- <body>
- 
- <div class="container">
-     <div class="title-wrap">
-         <div class="title"><img src="../../lib/images/query.png" alt=""></div> 
-         <div class="title">受助人员查询</div> 
-     </div>
-     <div class="query-form">
-         <div class="query-wrap">
-             <div class="query-type-title" >受助人姓名</div>
-             <div class="query-type-input">
-                 <input type="text" class="input-wrap" id="disabledname" autofocus>
-             </div>
-         </div>
-         <div class="query-wrap">
-             <div class="query-type-title" >受助人身份证</div>
-             <div class="query-type-input">
-             <input type="text" class="input-wrap" id="disabledidcard">
-             </div>
-         </div>
-         <div class="query-wrap">
-             <div class="query-type-title" >*受助人区域</div>
-             <div class="query-type-input" style="border-style: solid;border-width:1px;border-color: rgb(163, 192, 232);">
-             <input type="text" class="input-wrap" id = "disableddistrict"> 
-             </div>
-         </div>
-     </div>
- 
-     <div class="query-form">
-         <div class="query-wrap">
-             <div class="query-type-title" >*用户类型</div>
-             <div class="query-type-input">
-             <input type="text" class="input-wrap" id = "disabledusertype">
-             </div>
-         </div>
-         <div class="query-wrap">
-             <div class="query-type-title" >服务人员姓名</div>
-             <div class="query-type-input" style="border-style: solid;border-width:1px;border-color: rgb(163, 192, 232);">
-             <input type="text" class="input-wrap" id="assistantname">
-             </div>
-         </div>
-     </div>
-     <button class="query-button"  id="myreset">重置</button> 
-     <button class="query-button"  id="mybutton">查询</button>  
-     
-     <div id="maingrid"></div>
-  
- </div>
- 
- </body>
- 
- <script type="text/javascript">
-         $(function ()
-         { 
-             $.post("/disabled/getdisabledinit",{
-                 listnum:30
-             },
-             function(response,status){
-                 var griddata = JSON.parse(response.resp_data).data;  
-                 for(let i=0;i<griddata.length;i++){
-                     griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name="+ griddata[i].real_name+"'>修改</a>"
-                     }
-                     var grid = $("#maingrid").ligerGrid({
-                 columns: [
-                     { name: 'update', display: '操作', width: 60 },
-                     { name: 'real_name', display: '姓名', width: 75 },
-                     { name: 'district', display: '区域', width: 180 },
-                     { name: 'sex', display: '性别', width: 75 },
-                     { name: 'userType', display: '用户类型', width: 75 },
-                     { name: 'disabledClass', display: '伤残等级', width: 75 },
-                     { name: 'idCard', display: '身份证', width: 150 },
-                     { name: 'address', display: '现居地址', width: 250 },
-                     { name: 'disabledContact', display: '联系方式', width: 170 },
-                     { name: 'area', display: '住房面积', width: 75 },
-                     { name: 'familyStructure', display: '家庭结构', width: 75 },
-                     { name: 'familySituation', display: '家属情况', width: 75 },
-                     { name: 'registerAddr', display: '户口所在地', width: 200 },
-                     { name: 'registerStatus', display: '人户分离状态', width: 100 },
-                     { name: 'assistantName', display: '服务人员姓名', width: 100 },
-                     { name: 'assistantSex', display: '服务人员性别', width: 100 },
-                     { name: 'assistantContact', display: '服务人员电话', width: 170 },
-                     { name: 'specification', display: '备注', width: 300 }
-                         ],
-                     data: { Rows: griddata },
-                     pageSize:10  
-                  }); 
-                 //alert("数据: \n" + data + "\n状态: " + status);
-             });
- 
-         });
- 
- $("#myreset").click(function(){
-     $("#disabledname").val("");
-     $("#disabledidcard").val("");
-     $("#disableddistrict").val("");
-     $("#disabledusertype").val("");
-     $("#assistantname").val("");
- })
- 
- $("#mybutton").click(function(){
-     let sum = 0;
-     let reqbody={};
-     let real_name = $("#disabledname").val();
-     let idCard = $("#disabledidcard").val();
-     let district = $("#disableddistrict").val();
-     let userType = $("#disabledusertype").val();
-     let assistantName = $("#assistantname").val();
-     if(real_name){
-         sum++;
-         reqbody.real_name = real_name;
-     } 
-     if(idCard){
-         sum++;
-         reqbody.idCard = idCard;
-     } 
-     if(district){
-         sum++;
-         reqbody.district = district;
-     } 
-     if(userType){
-         sum++;
-         reqbody.userType = userType;
-     } 
-     if(assistantName){
-         sum++;
-         reqbody.assistantName = assistantName;
-     } 
-     if(sum == 1){
-         $.post("/disabled/getdisableds",reqbody,
-             function(response,status){
-                 var griddata = JSON.parse(response.resp_data).data;
-                 for(let i=0;i<griddata.length;i++){
-                     griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name="+ griddata[i].real_name+"'>修改</a>"
-                     }
-                 var grid = $("#maingrid").ligerGrid({
-                 columns: [
-                     { name: 'update', display: '操作', width: 60 },
-                     { name: 'real_name', display: '姓名', width: 75 },
-                     { name: 'district', display: '区域', width: 180 },
-                     { name: 'sex', display: '性别', width: 75 },
-                     { name: 'userType', display: '用户类型', width: 75 },
-                     { name: 'disabledClass', display: '伤残等级', width: 75 },
-                     { name: 'idCard', display: '身份证', width: 150 },
-                     { name: 'address', display: '现居地址', width: 250 },
-                     { name: 'disabledContact', display: '联系方式', width: 170 },
-                     { name: 'area', display: '住房面积', width: 75 },
-                     { name: 'familyStructure', display: '家庭结构', width: 75 },
-                     { name: 'familySituation', display: '家属情况', width: 75 },
-                     { name: 'registerAddr', display: '户口所在地', width: 200 },
-                     { name: 'registerStatus', display: '人户分离状态', width: 100 },
-                     { name: 'assistantName', display: '服务人员姓名', width: 100 },
-                     { name: 'assistantSex', display: '服务人员性别', width: 100 },
-                     { name: 'assistantContact', display: '服务人员电话', width: 170 },
-                     { name: 'specification', display: '备注', width: 300 }
-                         ],
-                     data: { Rows: griddata },
-                     pageSize:20
-                  }); 
-                 //alert("数据: \n" + data + "\n状态: " + status);
-             });
-     }else alert("每次查询只能输入一个字段")
-  
-   });
-  
-  </script>
- 
- 
-  </html>
+<html>
+
+<head>
+    <title>壹方助残管理系统</title>
+    <link href="../lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+    <link href="../lib/css/jyq.css" rel="stylesheet" media="screen">
+    <script src="../lib/jquery/jquery-1.9.0.min.js" type="text/javascript"></script>
+    <script src="../lib/ligerUI/js/ligerui.all.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="title-wrap">
+            <div class="title"><img src="../../lib/images/query.png" alt=""></div>
+            <div class="title">受助人员查询</div>
+        </div>
+        <div class="query-form">
+            <div class="query-wrap">
+                <div class="query-type-title">受助人姓名</div>
+                <div class="query-type-input">
+                    <input type="text" class="input-wrap" id="disabledname" autofocus>
+                </div>
+            </div>
+            <div class="query-wrap">
+                <div class="query-type-title">受助人身份证</div>
+                <div class="query-type-input">
+                    <input type="text" class="input-wrap" id="disabledidcard">
+                </div>
+            </div>
+            <div class="query-wrap">
+                <div class="query-type-title">服务人员姓名</div>
+                <div class="query-type-input"
+                    style="border-style: solid;border-width:1px;border-color: rgb(163, 192, 232);">
+                    <input type="text" class="input-wrap" id="assistantname">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="query-form">
+            <div class="query-wrap">
+                <div class="query-type-title">*用户来电</div>
+                <div class="query-type-input">
+                    <input type="text" class="input-wrap" id="disabledContact">
+                </div>
+            </div>
+            <div class="query-wrap">
+                <div class="query-type-title">*用户类型</div>
+                <div class="query-type-input">
+                    <input type="text" class="input-wrap" id="disabledusertype">
+                </div>
+            </div>
+            <div class="query-wrap">
+                <div class="query-type-title">*受助人区域</div>
+                <div class="query-type-input"
+                    style="border-style: solid;border-width:1px;border-color: rgb(163, 192, 232);">
+                    <input type="text" class="input-wrap" id="disableddistrict">
+                </div>
+            </div>
+        </div>
+        <button class="query-button" id="myreset">重置</button>
+        <button class="query-button" id="mybutton">查询</button>
+
+        <div id="maingrid"></div>
+
+    </div>
+
+</body>
+
+<script type="text/javascript">
+//console.log("<%= role %>" == 0)
+    $(function () {
+        $.post("/disabled/getdisabledinit", {
+            listnum: 30
+        },
+            function (response, status) {
+                var griddata = JSON.parse(response.resp_data).data;
+                for (let i = 0; i < griddata.length; i++) {
+                    griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>修改</a>"
+                }
+                var grid = $("#maingrid").ligerGrid({
+                    columns: [
+                        { name: 'update', display: '操作', width: 60 },
+                        { name: 'real_name', display: '姓名', width: 75 },
+                        { name: 'district', display: '区域', width: 180 },
+                        { name: 'sex', display: '性别', width: 75 },
+                        { name: 'userType', display: '用户类型', width: 75 },
+                        { name: 'disabledClass', display: '伤残等级', width: 75 },
+                        { name: 'idCard', display: '身份证', width: 150 },
+                        { name: 'address', display: '现居地址', width: 250 },
+                        { name: 'disabledContact', display: '联系方式', width: 170 },
+                        { name: 'area', display: '住房面积', width: 75 },
+                        { name: 'familyStructure', display: '家庭结构', width: 75 },
+                        { name: 'familySituation', display: '家属情况', width: 75 },
+                        { name: 'registerAddr', display: '户口所在地', width: 200 },
+                        { name: 'registerStatus', display: '人户分离状态', width: 100 },
+                        { name: 'assistantName', display: '服务人员姓名', width: 100 },
+                        { name: 'assistantSex', display: '服务人员性别', width: 100 },
+                        { name: 'assistantContact', display: '服务人员电话', width: 170 },
+                        { name: 'specification', display: '备注', width: 300 }
+                    ],
+                    data: { Rows: griddata },
+                    pageSize: 10
+                });
+                //alert("数据: \n" + data + "\n状态: " + status);
+            });
+
+    });
+
+    $("#myreset").click(function () {
+        
+        $("#disabledname").val("");
+        $("#disabledidcard").val("");
+        $("#disableddistrict").val("");
+        $("#disabledusertype").val("");
+        $("#assistantname").val("");
+        $("#disabledContact").val("");
+    })
+
+    $("#mybutton").click(function () {
+        let sum = 0;
+        let reqbody = {};
+        let real_name = $("#disabledname").val();
+        let idCard = $("#disabledidcard").val();
+        let district = $("#disableddistrict").val();
+        let userType = $("#disabledusertype").val();
+        let assistantName = $("#assistantname").val();
+        let disabledContact = $("#disabledContact").val();
+        if (real_name) {
+            sum++;
+            reqbody.real_name = real_name;
+        }
+        if (idCard) {
+            sum++;
+            reqbody.idCard = idCard;
+        }
+        if (district) {
+            sum++;
+            reqbody.district = district;
+        }
+        if (userType) {
+            sum++;
+            reqbody.userType = userType;
+        }
+        if (assistantName) {
+            sum++;
+            reqbody.assistantName = assistantName;
+        }
+        if (disabledContact) {
+            sum++;
+            reqbody.disabledContact = disabledContact;
+        }
+        if (sum == 1) {
+            $.post("/disabled/getdisableds", reqbody,
+                function (response, status) {
+                    var griddata = JSON.parse(response.resp_data).data;
+                    for (let i = 0; i < griddata.length; i++) {
+                        griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>修改</a>"
+                    }
+                    var grid = $("#maingrid").ligerGrid({
+                        columns: [
+                            { name: 'update', display: '操作', width: 60 },
+                            { name: 'real_name', display: '姓名', width: 75 },
+                            { name: 'district', display: '区域', width: 180 },
+                            { name: 'sex', display: '性别', width: 75 },
+                            { name: 'userType', display: '用户类型', width: 75 },
+                            { name: 'disabledClass', display: '伤残等级', width: 75 },
+                            { name: 'idCard', display: '身份证', width: 150 },
+                            { name: 'address', display: '现居地址', width: 250 },
+                            { name: 'disabledContact', display: '联系方式', width: 170 },
+                            { name: 'area', display: '住房面积', width: 75 },
+                            { name: 'familyStructure', display: '家庭结构', width: 75 },
+                            { name: 'familySituation', display: '家属情况', width: 75 },
+                            { name: 'registerAddr', display: '户口所在地', width: 200 },
+                            { name: 'registerStatus', display: '人户分离状态', width: 100 },
+                            { name: 'assistantName', display: '服务人员姓名', width: 100 },
+                            { name: 'assistantSex', display: '服务人员性别', width: 100 },
+                            { name: 'assistantContact', display: '服务人员电话', width: 170 },
+                            { name: 'specification', display: '备注', width: 300 }
+                        ],
+                        data: { Rows: griddata },
+                        pageSize: 20
+                    });
+                    //alert("数据: \n" + data + "\n状态: " + status);
+                });
+        } else alert("每次查询只能输入一个字段")
+
+    });
+
+</script>
+
+
+</html>

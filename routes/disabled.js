@@ -14,7 +14,7 @@ router.get('/showalldisableds', function(req, res, next) {
 });
 
 router.get('/querydisabled', function(req, res, next) {
-  res.render('querydisabled', { username: req.session.user.username});
+  res.render('querydisabled', { username: req.session.user.username,role: req.session.user.role});
 });
 
 router.get('/showdisableddetail', function(req, res, next) {
@@ -113,7 +113,10 @@ router.post('/getdisableds', function(req, res, next) {
     if(req.body.userType){
       requestData.userType = req.body.userType
     } 
-    console.log(requestData);
+    if(req.body.disabledContact){
+      requestData.disabledContact = req.body.disabledContact
+    } 
+    
     request({
         url: cloudurl,
         method: "POST",
