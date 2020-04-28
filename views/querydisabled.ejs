@@ -78,11 +78,12 @@
             function (response, status) {
                 var griddata = JSON.parse(response.resp_data).data;
                 for (let i = 0; i < griddata.length; i++) {
-                    griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>修改</a>"
-                }
-                var grid = $("#maingrid").ligerGrid({
-                    columns: [
-                        { name: 'update', display: '操作', width: 60 },
+                        griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>修改</a>"
+                        griddata[i].qrcode = "<a  href= '/qrcode?real_name=" + griddata[i].real_name + "'>二维码</a>"
+                    }
+                    var grid = $("#maingrid").ligerGrid({
+                        columns: [
+                            { name: 'qrcode', display: '二维码', width: 60 },
                         { name: 'real_name', display: '姓名', width: 75 },
                         { name: 'district', display: '区域', width: 180 },
                         { name: 'sex', display: '性别', width: 75 },
@@ -158,9 +159,11 @@
                     var griddata = JSON.parse(response.resp_data).data;
                     for (let i = 0; i < griddata.length; i++) {
                         griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>修改</a>"
+                        griddata[i].qrcode = "<a  href= '/qrcode?real_name=" + griddata[i].real_name + "'>二维码</a>"
                     }
                     var grid = $("#maingrid").ligerGrid({
                         columns: [
+                            { name: 'qrcode', display: '二维码', width: 60 },
                             { name: 'update', display: '操作', width: 60 },
                             { name: 'real_name', display: '姓名', width: 75 },
                             { name: 'district', display: '区域', width: 180 },

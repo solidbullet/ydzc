@@ -17,6 +17,11 @@ router.get('/welcome', function (req, res, next) {
   res.render('welcome', { username: req.session.user.username });
 });
 
+router.get('/qrcode', function (req, res, next) {
+
+  res.render('qrcode',{ real_name: req.query.real_name});
+});
+
 router.get('/clock', function (req, res, next) {
 
   res.render('queryclock', { username: req.session.user.username });

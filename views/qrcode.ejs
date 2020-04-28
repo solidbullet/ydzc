@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <title>壹方助残管理系统</title>
+    <link href="../lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+    <link href="../lib/css/jyq.css" rel="stylesheet" media="screen">
+    <script src="../lib/jquery/jquery-1.9.0.min.js" type="text/javascript"></script>
+    <script src="../lib/ligerUI/js/ligerui.all.js" type="text/javascript"></script>
+    <script src="../lib/util/qrcode.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="name" style="margin-top:15px;margin-left: 15px;font-size: 16px;">受助人员<span style="color:red"><%=real_name%></span>,在二维码上右键，然后点击另存为进行保存</div>
+    <div id="qrcode" style="width:200px; height:200px; margin-top:15px;margin-left: 15px;"></div>
+    <script type="text/javascript">
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 200,
+            height: 200
+        });
+        qrcode.makeCode("<%=real_name%>");
+    </script>
+</body>
+
+</html>
