@@ -80,11 +80,14 @@
                 for (let i = 0; i < griddata.length; i++) {
                         griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>修改</a>"
                         griddata[i].qrcode = "<a  href= '/qrcode?real_name=" + griddata[i].real_name + "'>二维码</a>"
+                        griddata[i].demands = "<a  href= '/demand/updatedemand?real_name=" + griddata[i].real_name + "'>需求</a>"
                     }
                     var grid = $("#maingrid").ligerGrid({
                         columns: [
                             { name: 'qrcode', display: '二维码', width: 60 },
-                        { name: 'real_name', display: '姓名', width: 75 },
+                            { name: 'update', display: '操作', width: 60 },
+                            { name: 'demands', display: '需求', width: 60 },
+                            { name: 'real_name', display: '姓名', width: 75 },
                         { name: 'district', display: '区域', width: 180 },
                         { name: 'sex', display: '性别', width: 75 },
                         { name: 'userType', display: '用户类型', width: 75 },
@@ -129,42 +132,25 @@
         let userType = $("#disabledusertype").val();
         let assistantName = $("#assistantname").val();
         let disabledContact = $("#disabledContact").val();
-        if (real_name) {
-            sum++;
-            reqbody.real_name = real_name;
-        }
-        if (idCard) {
-            sum++;
-            reqbody.idCard = idCard;
-        }
-        if (district) {
-            sum++;
-            reqbody.district = district;
-        }
-        if (userType) {
-            sum++;
-            reqbody.userType = userType;
-        }
-        if (assistantName) {
-            sum++;
-            reqbody.assistantName = assistantName;
-        }
-        if (disabledContact) {
-            sum++;
-            reqbody.disabledContact = disabledContact;
-        }
-        if (sum == 1) {
+        reqbody.real_name = real_name;
+        reqbody.idCard = idCard;
+        reqbody.district = district;
+        reqbody.userType = userType;
+        reqbody.assistantName = assistantName;
+        reqbody.disabledContact = disabledContact;
             $.post("/disabled/getdisableds", reqbody,
                 function (response, status) {
                     var griddata = JSON.parse(response.resp_data).data;
                     for (let i = 0; i < griddata.length; i++) {
                         griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>修改</a>"
                         griddata[i].qrcode = "<a  href= '/qrcode?real_name=" + griddata[i].real_name + "'>二维码</a>"
+                        griddata[i].demands = "<a  href= '/demand/updatedemand?real_name=" + griddata[i].real_name + "'>需求</a>"
                     }
                     var grid = $("#maingrid").ligerGrid({
                         columns: [
                             { name: 'qrcode', display: '二维码', width: 60 },
                             { name: 'update', display: '操作', width: 60 },
+                            { name: 'demands', display: '需求', width: 60 },
                             { name: 'real_name', display: '姓名', width: 75 },
                             { name: 'district', display: '区域', width: 180 },
                             { name: 'sex', display: '性别', width: 75 },
@@ -188,7 +174,6 @@
                     });
                     //alert("数据: \n" + data + "\n状态: " + status);
                 });
-        } else alert("每次查询只能输入一个字段")
 
     });
 

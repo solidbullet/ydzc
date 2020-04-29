@@ -14,7 +14,7 @@
     <div ng-app="myApp" ng-controller="siteCtrl">
       <div class="title-wrap">
         <div class="title"><img src="../../lib/images/insert.png" alt=""></div>
-        <div class="title">受助人员需求修改</div>
+        <div class="title">受助人员需求信息</div>
       </div>
       <div class="query-form">
         <div class="query-wrap">
@@ -99,7 +99,7 @@
         </div>
       </div>
 
-      <button class="query-button" id="mybutton" ng-click="update()">修改</button>
+      <button class="query-button" id="mybutton" ng-show="isupdate" ng-click="update()">修改</button>
 
     </div>
   </div>
@@ -108,7 +108,7 @@
 
     var app = angular.module('myApp', []);
     app.controller('siteCtrl', function ($scope, $http) {
-
+      console.log("<%= role %>" == 0)
       if ("<%= role %>" == 0) {
         $scope.isupdate = true
       } else {
@@ -121,11 +121,13 @@
         params: { real_name: "<%=real_name%>" },
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
       }).success(function (response) {
-
+        console.log(response.resp_data)
         $scope.demand = JSON.parse(response.resp_data).data[0];
-        $scope.demand.startDate = new Date($scope.demand.startDate)
-        $scope.demand.endDate = new Date($scope.demand.endDate)
-        console.log($scope.demand)
+        if ($scope.demand) {
+          if ($scope.demand.startDate) $scope.demand.startDate = new Date($scope.demand.startDate)
+          if ($scope.demand.endDate) $scope.demand.endDate = new Date($scope.demand.endDate)
+        }else $scope.demand ={real_name:"<%=real_name%>"} 
+
       })
 
       $scope.update = function () {

@@ -12,7 +12,7 @@
 <div ng-app="myApp" ng-controller="siteCtrl"> 
       <div class="title-wrap">
           <div class="title"><img src="../../lib/images/insert.png" alt=""></div> 
-          <div class="title">受助人员修改</div> 
+          <div class="title">受助人员信息</div> 
       </div>
       <div class="query-form">
         <div class="query-wrap">
@@ -151,7 +151,7 @@
         </div>
       </div>
 
-      <button class="query-button"  id="mybutton" ng-click="update()" >修改</button>
+      <button class="query-button"  id="mybutton" ng-show="isupdate"  ng-click="update()" >修改</button>
   </div>  
 </div><!--end of container-->
 

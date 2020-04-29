@@ -211,7 +211,7 @@ router.post('/getalldisabledsbyassistant', function(req, res, next) {
     let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
     let requestData={
       "action":"queryallbyassistant",
-      "assistantName":req.query.real_name
+      "assistantName":req.query.real_name || req.body.real_name
     };
     request({
         url: cloudurl,

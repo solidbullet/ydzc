@@ -46,12 +46,14 @@
         function (response, status) {
           var griddata = JSON.parse(response.resp_data).data;
           for (let i = 0; i < griddata.length; i++) {
-            griddata[i].update = "<a href= '/assistant/updateassistant?real_name=" + griddata[i].real_name + "'>修改</a>"
-          }
-          var grid = $("#maingrid").ligerGrid({
-            columns: [
-              { name: 'update', display: '操作' },
-              { name: 'real_name', display: '姓名' },
+              griddata[i].update = "<a href= '/assistant/updateassistant?real_name=" + griddata[i].real_name + "'>修改</a>"
+              griddata[i].disableds = "<a href= '/disabled/showalldisableds?real_name=" + griddata[i].real_name + "'>服务对象</a>"
+            }
+            var grid = $("#maingrid").ligerGrid({
+              columns: [
+                { name: 'update', display: '操作' },
+                { name: 'disableds', display: '服务对象' },
+                { name: 'real_name', display: '姓名' },
               { name: 'contact', display: '联系方式' },
               { name: 'address', display: '居住地址' },
               { name: 'registerAddr', display: '户口所在地' },
@@ -100,10 +102,12 @@
             var griddata = JSON.parse(response.resp_data).data;
             for (let i = 0; i < griddata.length; i++) {
               griddata[i].update = "<a href= '/assistant/updateassistant?real_name=" + griddata[i].real_name + "'>修改</a>"
+              griddata[i].disableds = "<a href= '/disabled/showalldisableds?real_name=" + griddata[i].real_name + "'>服务对象</a>"
             }
             var grid = $("#maingrid").ligerGrid({
               columns: [
                 { name: 'update', display: '操作' },
+                { name: 'disableds', display: '服务对象' },
                 { name: 'real_name', display: '姓名' },
                 { name: 'contact', display: '联系方式' },
                 { name: 'address', display: '居住地址' },
