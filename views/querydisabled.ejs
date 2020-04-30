@@ -70,7 +70,7 @@
 </body>
 
 <script type="text/javascript">
-//console.log("<%= role %>" == 0)
+    //console.log("<%= role %>" == 0)
     $(function () {
         $.post("/disabled/getdisabledinit", {
             listnum: 30
@@ -78,35 +78,28 @@
             function (response, status) {
                 var griddata = JSON.parse(response.resp_data).data;
                 for (let i = 0; i < griddata.length; i++) {
-                        griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>修改</a>"
-                        griddata[i].qrcode = "<a  href= '/qrcode?real_name=" + griddata[i].real_name + "'>二维码</a>"
-                        griddata[i].demands = "<a  href= '/demand/updatedemand?real_name=" + griddata[i].real_name + "'>需求</a>"
-                    }
-                    var grid = $("#maingrid").ligerGrid({
-                        columns: [
-                            { name: 'qrcode', display: '二维码', width: 60 },
-                            { name: 'update', display: '操作', width: 60 },
-                            { name: 'demands', display: '需求', width: 60 },
-                            { name: 'real_name', display: '姓名', width: 75 },
+                    griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>详细信息</a>"
+                    griddata[i].qrcode = "<a  href= '/qrcode?real_name=" + griddata[i].real_name + "'>二维码</a>"
+                    griddata[i].demands = "<a  href= '/demand/updatedemand?real_name=" + griddata[i].real_name + "'>需求</a>"
+                }
+                var grid = $("#maingrid").ligerGrid({
+                    columns: [
+                        { name: 'update', display: '详细信息', width: 60 },
+                        { name: 'real_name', display: '姓名', width: 80 },
                         { name: 'district', display: '区域', width: 180 },
-                        { name: 'sex', display: '性别', width: 75 },
-                        { name: 'userType', display: '用户类型', width: 75 },
-                        { name: 'disabledClass', display: '伤残等级', width: 75 },
-                        { name: 'idCard', display: '身份证', width: 150 },
-                        { name: 'address', display: '现居地址', width: 250 },
-                        { name: 'disabledContact', display: '联系方式', width: 170 },
-                        { name: 'area', display: '住房面积', width: 75 },
-                        { name: 'familyStructure', display: '家庭结构', width: 75 },
-                        { name: 'familySituation', display: '家属情况', width: 75 },
-                        { name: 'registerAddr', display: '户口所在地', width: 200 },
-                        { name: 'registerStatus', display: '人户分离状态', width: 100 },
+                        { name: 'sex', display: '性别', width: 60 },
+                        { name: 'userType', display: '用户类型', width: 80 },
+                        { name: 'address', display: '现居地址' },
+                        { name: 'disabledContact', display: '联系方式' },
                         { name: 'assistantName', display: '服务人员姓名', width: 100 },
-                        { name: 'assistantSex', display: '服务人员性别', width: 100 },
-                        { name: 'assistantContact', display: '服务人员电话', width: 170 },
-                        { name: 'specification', display: '备注', width: 300 }
+                        { name: 'assistantContact', display: '服务人员电话' },
+                        { name: 'qrcode', display: '二维码', width: 60 },
+
+                        { name: 'demands', display: '需求', width: 60 },
+                        { name: 'specification', display: '备注' }
                     ],
                     data: { Rows: griddata },
-                    pageSize: 10
+                    pageSize: 20
                 });
                 //alert("数据: \n" + data + "\n状态: " + status);
             });
@@ -114,7 +107,7 @@
     });
 
     $("#myreset").click(function () {
-        
+
         $("#disabledname").val("");
         $("#disabledidcard").val("");
         $("#disableddistrict").val("");
@@ -138,42 +131,34 @@
         reqbody.userType = userType;
         reqbody.assistantName = assistantName;
         reqbody.disabledContact = disabledContact;
-            $.post("/disabled/getdisableds", reqbody,
-                function (response, status) {
-                    var griddata = JSON.parse(response.resp_data).data;
-                    for (let i = 0; i < griddata.length; i++) {
-                        griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>修改</a>"
-                        griddata[i].qrcode = "<a  href= '/qrcode?real_name=" + griddata[i].real_name + "'>二维码</a>"
-                        griddata[i].demands = "<a  href= '/demand/updatedemand?real_name=" + griddata[i].real_name + "'>需求</a>"
-                    }
-                    var grid = $("#maingrid").ligerGrid({
-                        columns: [
-                            { name: 'qrcode', display: '二维码', width: 60 },
-                            { name: 'update', display: '操作', width: 60 },
-                            { name: 'demands', display: '需求', width: 60 },
-                            { name: 'real_name', display: '姓名', width: 75 },
-                            { name: 'district', display: '区域', width: 180 },
-                            { name: 'sex', display: '性别', width: 75 },
-                            { name: 'userType', display: '用户类型', width: 75 },
-                            { name: 'disabledClass', display: '伤残等级', width: 75 },
-                            { name: 'idCard', display: '身份证', width: 150 },
-                            { name: 'address', display: '现居地址', width: 250 },
-                            { name: 'disabledContact', display: '联系方式', width: 170 },
-                            { name: 'area', display: '住房面积', width: 75 },
-                            { name: 'familyStructure', display: '家庭结构', width: 75 },
-                            { name: 'familySituation', display: '家属情况', width: 75 },
-                            { name: 'registerAddr', display: '户口所在地', width: 200 },
-                            { name: 'registerStatus', display: '人户分离状态', width: 100 },
-                            { name: 'assistantName', display: '服务人员姓名', width: 100 },
-                            { name: 'assistantSex', display: '服务人员性别', width: 100 },
-                            { name: 'assistantContact', display: '服务人员电话', width: 170 },
-                            { name: 'specification', display: '备注', width: 300 }
-                        ],
-                        data: { Rows: griddata },
-                        pageSize: 20
-                    });
-                    //alert("数据: \n" + data + "\n状态: " + status);
+        $.post("/disabled/getdisableds", reqbody,
+            function (response, status) {
+                var griddata = JSON.parse(response.resp_data).data;
+                for (let i = 0; i < griddata.length; i++) {
+                    griddata[i].update = "<a href= '/disabled/showdisableddetail?real_name=" + griddata[i].real_name + "'>详细信息</a>"
+                    griddata[i].qrcode = "<a  href= '/qrcode?real_name=" + griddata[i].real_name + "'>二维码</a>"
+                    griddata[i].demands = "<a  href= '/demand/updatedemand?real_name=" + griddata[i].real_name + "'>需求</a>"
+                }
+                var grid = $("#maingrid").ligerGrid({
+                    columns: [
+                        { name: 'update', display: '详细信息', width: 60 },
+                        { name: 'real_name', display: '姓名', width: 80 },
+                        { name: 'district', display: '区域', width: 180 },
+                        { name: 'sex', display: '性别', width: 60 },
+                        { name: 'userType', display: '用户类型', width: 80 },
+                        { name: 'address', display: '现居地址' },
+                        { name: 'disabledContact', display: '联系方式' },
+                        { name: 'assistantName', display: '服务人员姓名', width: 100 },
+                        { name: 'assistantContact', display: '服务人员电话' },
+                        { name: 'qrcode', display: '二维码', width: 60 },
+                        { name: 'demands', display: '需求', width: 60 },
+                        { name: 'specification', display: '备注' }
+                    ],
+                    data: { Rows: griddata },
+                    pageSize: 20
                 });
+                //alert("数据: \n" + data + "\n状态: " + status);
+            });
 
     });
 
