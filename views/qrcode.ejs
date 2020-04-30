@@ -11,11 +11,11 @@
 
 <body>
     <div id="name" style="margin-top:15px;margin-left: 15px;font-size: 16px;">受助人员<span style="color:red"><%=real_name%></span>,在二维码上右键，然后点击另存为进行保存</div>
-    <div id="qrcode" style="width:200px; height:200px; margin-top:15px;margin-left: 15px;"></div>
+    <div id="qrcode" style="width:450px; height:450px; margin-top:15px;margin-left: 15px;"></div>
     <script type="text/javascript">
         var qrcode = new QRCode(document.getElementById("qrcode"), {
-            width: 200,
-            height: 200
+            width: 440,
+            height: 440
         });
         qrcode.makeCode("<%=real_name%>");
     </script>
