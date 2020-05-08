@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const WX = require("../config.js")
+const WX = require("../config.json")
 const util = require("./util.js")
 const CLOUD_FUNCTION_NAME = "disabled"
 
@@ -70,8 +70,9 @@ router.post('/savedisabled', function(req, res, next) {
 });
 
 router.post('/getdisabledinit', function(req, res, next) {
-  console.log(req.body)
+  
   util.getToken().then(access_token=>{
+    console.log(access_token)
     let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
     let requestData={
       "action":"initdisableds"

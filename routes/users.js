@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const WX = require("../config.js")
+const WX = require("../config.json")
 const util = require("./util.js")
 const CLOUD_FUNCTION_NAME = "admin"
 /* GET users listing. */
