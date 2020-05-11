@@ -31,17 +31,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+console.log(path.join(__dirname, 'public'))
+
 app.use('/users', usersRouter);
 
-
-
 app.use('*',(req,res,next)=>{
-
   if(!req.session.user){
     return res.redirect('/users')  //一定要加return 不然会报错
   }
   next();
 })
+
 
 app.use('/', indexRouter);
 

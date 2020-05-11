@@ -27,6 +27,7 @@ router.get('/loginout', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
+  console.log(req.query)
     util.getToken().then(access_token=>{
       let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
       let requestData={
@@ -42,6 +43,8 @@ router.post('/login', function(req, res, next) {
           },
           body: requestData
       }, function(error, response, body) {
+        if(body.errcode == '40001') res.send("微信token问题")
+        console.log(body)
           if (!error && response.statusCode == 200) {
             let user; 
             try {

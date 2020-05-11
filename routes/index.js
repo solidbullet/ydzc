@@ -12,6 +12,7 @@ router.get('/', function (req, res, next) {
 
   res.render('index', { username: req.session.user.username });
 });
+
 router.get('/welcome', function (req, res, next) {
 
   res.render('welcome', { username: req.session.user.username });
