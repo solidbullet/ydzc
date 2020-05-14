@@ -1,4 +1,4 @@
-var createError = require('http-errors');
+﻿var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -12,6 +12,15 @@ var demandRouter = require('./routes/demand');
 
 
 var app = express();
+
+app.all('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', '*');
+  res.header('Content-Type', 'application/json;charset=utf-8');
+  next();
+});
+
 var session = require('express-session')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
