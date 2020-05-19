@@ -31,8 +31,8 @@ router.post('/login', function(req, res, next) {
     util.getToken().then(access_token=>{
       let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
       let requestData={
-        "username":req.query.username,
-        "password":req.query.password
+        "username":req.body.username,
+        "password":req.body.password
       };
       request({
           url: cloudurl,

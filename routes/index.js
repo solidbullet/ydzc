@@ -10,22 +10,40 @@ const CLOUD_FUNCTION_NAME = "clockrecord"
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
-  res.render('index', { username: req.session.user.username });
+  res.render('index');
 });
 
 router.get('/welcome', function (req, res, next) {
 
-  res.render('welcome', { username: req.session.user.username });
+  res.render('welcome');
+});
+
+router.post('/getcordinate', function (req, res, next) {
+
+  let address = encodeURI(req.body.addr)
+  const url = `http://api.map.baidu.com/geocoding/v3/?address=${address}&output=json&ak=xl0mVoYTRu99PBrwOOezOaKGCRVr4uar&callback=showLocation`
+
+  request(url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      
+      let mystr = body.slice(body.indexOf('{'),-1)
+      let cor = JSON.parse(mystr).result.location
+      console.log(cor)
+      res.send(cor)
+    }else{
+      res.send(error)
+    }
+  });
 });
 
 router.get('/qrcode', function (req, res, next) {
 
-  res.render('qrcode',{ real_name: req.query.real_name});
+  res.render('qrcode'); //,{ real_name: req.query.real_name}
 });
 
 router.get('/clock', function (req, res, next) {
 
-  res.render('queryclock', { username: req.session.user.username });
+  res.render('queryclock'); //, { username: req.session.user.username }
 });
 
 router.post('/getrecord', function (req, res, next) {
@@ -38,7 +56,7 @@ router.post('/getrecord', function (req, res, next) {
       "startTime": req.body.startTime,
       "endTime": req.body.endTime
     };
-console.log(requestData)
+    console.log(requestData)
     request({
       url: cloudurl,
       method: "POST",
@@ -52,7 +70,7 @@ console.log(requestData)
         res.send(body);
       }
     });
-    
+
   })
 
 });

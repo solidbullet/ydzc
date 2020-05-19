@@ -7,20 +7,20 @@ const CLOUD_FUNCTION_NAME = "disabled"
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('disabled', { username: req.session.user.username});
+  res.render('disabled'); //, { username: req.session.user.username}
 });
 router.get('/showalldisableds', function(req, res, next) {
-  res.render('showalldisableds',{real_name:req.query.real_name,username: req.session.user.username});
+  res.render('showalldisableds'); //,{real_name:req.query.real_name,username: req.session.user.username}
 });
 
 router.get('/querydisabled', function(req, res, next) {
-  res.render('querydisabled', { username: req.session.user.username,role: req.session.user.role});
+  res.render('querydisabled'); //, { username: req.session.user.username,role: req.session.user.role}
 });
 
 router.get('/showdisableddetail', function(req, res, next) {
   console.log(req.query.real_name)
-  res.render('disableddetail',{real_name:req.query.real_name,role: req.session.user.role});
-});
+  res.render('disableddetail');//,{real_name:req.query.real_name,role: req.session.user.role}
+}); 
 
 
 router.post('/getallcount', function(req, res, next) {
@@ -50,8 +50,10 @@ router.post('/savedisabled', function(req, res, next) {
       let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
       let requestData = {};
       requestData.action = "save";
-      requestData.disabled = req.query; //云函数接收event就是requestData
-      console.log(requestData);
+      console.log('query:',req.query);
+      console.log(req.body);
+      requestData.disabled = req.body; //云函数接收event就是requestData
+      
       request({
           url: cloudurl,
           method: "POST",
@@ -87,6 +89,7 @@ router.post('/getdisabledinit', function(req, res, next) {
         body: requestData
     }, function(error, response, body) {
         if (!error && response.statusCode == 200) {
+          console.log(body)
           res.send(body);
         }
     });
@@ -212,7 +215,7 @@ router.post('/getalldisabledsbyassistant', function(req, res, next) {
     let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
     let requestData={
       "action":"queryallbyassistant",
-      "assistantName":req.query.real_name || req.body.real_name
+      "assistantName":req.body.real_name
     };
     request({
         url: cloudurl,
@@ -255,12 +258,60 @@ router.post('/getdisabledsbydistrict', function(req, res, next) {
   })
 });
 
+router.post('/delbyname', function(req, res, next) {
+  util.getToken().then(access_token=>{
+    let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
+    var requestData={
+      "action":"delbyname",
+      "real_name":req.body.real_name
+    };
+    request({
+        url: cloudurl,
+        method: "POST",
+        json: true,
+        headers: {
+            "content-type": "application/json",
+        },
+        body: requestData
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          res.send(body);
+        }
+    });
+    //console.log(access_token)
+})
+});
+
+router.post('/getcountbydistrict', function(req, res, next) {
+  util.getToken().then(access_token=>{
+    let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
+    var requestData={
+      "action":"getcountbydistrict",
+      "district":req.body.district
+    };
+    request({
+        url: cloudurl,
+        method: "POST",
+        json: true,
+        headers: {
+            "content-type": "application/json",
+        },
+        body: requestData
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          res.send(body);
+        }
+    });
+    //console.log(access_token)
+})
+});
+
 router.post('/updatedisabledbyname', function(req, res, next) {
   util.getToken().then(access_token=>{
     let cloudurl= WX.CLOUDFUNCTION + access_token + "&env=" + WX.CLOUD_ENV + "&name=" + CLOUD_FUNCTION_NAME;
     let requestData = {};
     requestData.action = "updatebyname";
-    requestData.disabled_info = req.query; //云函数接收event就是requestData
+    requestData.disabled_info = req.body; //云函数接收event就是requestData
     console.log(requestData)
     request({
         url: cloudurl,
