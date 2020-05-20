@@ -11,7 +11,7 @@ async function getToken() {
         uri: url,
         json: true
     }
-    if (!config.access_token || curentTime - config.expires_time > 7000 * 1000) {
+    if (!config.access_token || curentTime - config.expires_time > 3600 * 1000) {
         let res = await rp(options)
         const { access_token } = res;
         config.access_token = access_token;
