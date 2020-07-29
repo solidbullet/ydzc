@@ -1,4 +1,6 @@
-vuejs：启动 npm run server  打包：npm run build，打包完成后生成dist文件拷贝到express框架下的public目录下面，记住express的app.js文件中需要把跨域Access-Control-Allow-Origin屏蔽掉
+vuejs：启动 npm run server  
+vuejs打包：npm run build，打包完成后生成dist文件拷贝到express框架下的public目录下面，记住express的app.js文件中需要把跨域Access-Control-Allow-Origin屏蔽掉
+2020.07.29修改了queryclock 打卡记录的日期格式 YY-MM-DD HH:mm ,mm不能写成MM
 文件启动命令: npm start
 
 正常的json对象后面带逗号，微信数据库导入的时候会有异常，需要写程序处理
